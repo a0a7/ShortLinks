@@ -26,6 +26,19 @@ export default {
         const url = new URL(request.url);
         const { pathname } = url;
 
+        if (pathname === "/" && request.method === "GET") {
+				const iframeContent = `
+				<html>
+					<body style="margin:0;padding:0;overflow:hidden;">
+						<iframe src="https://alexw.pages.dev" style="border:none;width:100vw;height:99vh;transform:scaleY(101.5%);"></iframe>
+					</body>
+				</html>
+			`;
+            return new Response(iframeContent, {
+                headers: { "Content-Type": "text/html" }
+            });
+        }
+
         if (pathname === "/shorten" && request.method === "GET") {
             const shortlinks = await listShortlinks(env);
             const shortlinksHtml = shortlinks.map(shortlink => `
