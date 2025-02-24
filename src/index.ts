@@ -27,14 +27,17 @@ export default {
         const { pathname } = url;
 
         if (pathname === "/" && request.method === "GET") {
-				const iframeContent = `
+			const iframeContent = `
 				<html>
+					<head>
+						<meta name="viewport" content="width=device-width, initial-scale=1.0">
+					</head>
 					<body style="margin:0;padding:0;overflow:hidden;">
 						<iframe src="https://alexw.pages.dev" style="border:none;width:100vw;height:99vh;transform:scaleY(101.5%);"></iframe>
 					</body>
 				</html>
 			`;
-            return new Response(iframeContent, {
+	            return new Response(iframeContent, {
                 headers: { "Content-Type": "text/html" }
             });
         }
