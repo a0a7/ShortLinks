@@ -1,18 +1,24 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+export interface Env {
+	SHORT_URLS: KVNamespace;
+}
 
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+	async fetch(
+		request: Request,
+		env: Env,
+		_ctx: ExecutionContext
+	): Promise<Response> {
+	const url = new URL(request.url);
+	const { pathname } = url;
+	const redirectURL = await env.SHORT_URLS.get(pathname);
+	
+	if (!redirectURL && pathname === "/") {
+		return new Response('404', { status: 404 });
+	}
+
+	if (!redirectURL) {
+		return Response.redirect(url.origin, 301);
+	}
+	return Response.redirect(redirectURL, 301);
 	},
-} satisfies ExportedHandler<Env>;
+};
