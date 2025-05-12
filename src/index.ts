@@ -32,7 +32,7 @@ export default {
                     <head>
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     </head>
-                    <body style="margin:0;padding:0;overflow:hidden;">
+                    <body style="background-color:#09000d;margin:0;padding:0;overflow:hidden;">
                         <iframe src="https://alexw.pages.dev" style="border:none;width:100vw;height:99vh;transform:scaleY(102%);"></iframe>
                     </body>
                 </html>
